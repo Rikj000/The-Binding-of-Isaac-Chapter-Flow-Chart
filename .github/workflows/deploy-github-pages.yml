@@ -1,0 +1,81 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - development
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Playwright
+        run: |
+          npm install playwright
+          npx playwright install chromium --with-deps
+
+      - name: Generate PNG from HTML
+        run: |
+          node -e "
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch();
+            const page = await browser.newPage({
+              viewport: { width: 1100, height: 800 },
+              deviceScaleFactor: 2
+            });
+            await page.goto(
+              'file://' + process.cwd() + '/The-Binding-of-Isaac-Chapter-Flow-Chart.html',
+              { waitUntil: 'networkidle' }
+            );
+            await page.waitForTimeout(1000);
+            await page.screenshot({
+              path: 'The-Binding-of-Isaac-Chapter-Flow-Chart.png',
+              fullPage: true
+            });
+            await browser.close();
+            console.log('PNG generated successfully');
+          })();
+          "
+
+      - name: Commit PNG if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add The-Binding-of-Isaac-Chapter-Flow-Chart.png
+          git diff --cached --quiet || git commit -m "chore: update PNG export [skip ci]"
+          git push
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
