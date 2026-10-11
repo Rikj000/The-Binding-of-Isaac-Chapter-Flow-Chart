@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Binding of Isaac: Repentance+ — Chapter Flowchart</title>
+<style>
+:root{--bg:#2b1f1a;--text:#d4a960;--muted:#7a5e3a;--std:#3d2e24;--std-b:#a07848;--alt:#2a3d2a;--alt-b:#5a8a5a;--alt-t:#b8d498;--boss:#5c1a1a;--boss-b:#c04040;--boss-t:#ffd0a0;--asc:#1e3040;--asc-b:#3a7890;--asc-t:#90d0e8;--spec:#3a2a50;--spec-b:#7060a0;--spec-t:#d0b8f0;--greed:#50421a;--greed-b:#b89838;--arr:#9a7848;--arr2:#6a5030;box-sizing:border-box;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+html{scroll-padding-top:env(safe-area-inset-top,0);height:100%}
+/* Dark theme always applied */
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:auto}
+h1{text-align:center;padding:.7rem 1rem .05rem;font-size:clamp(.9rem,2.2vw,1.2rem)}
+.sub{text-align:center;font-size:.68rem;color:var(--muted);padding-bottom:.2rem}
+#wrap{overflow-x:auto;padding:0 .5rem 1rem}
+#chart{position:relative;margin:0 auto}
+.n{position:absolute;text-align:center;border-radius:5px;font-size:.57rem;line-height:1.28;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2px 5px;border:2px solid;z-index:2;white-space:pre-line}
+.n.std{background:var(--std);border-color:var(--std-b);color:var(--text)}
+.n.alt{background:var(--alt);border-color:var(--alt-b);color:var(--alt-t)}
+.n.boss{background:var(--boss);border-color:var(--boss-b);color:var(--boss-t);font-weight:700;font-size:.59rem}
+.n.asc{background:var(--asc);border-color:var(--asc-b);color:var(--asc-t);font-size:.54rem}
+.n.spec{background:var(--spec);border-color:var(--spec-b);color:var(--spec-t)}
+.n.greed{background:var(--greed);border-color:var(--greed-b);color:var(--text)}
+.n.start{background:var(--std);border-color:var(--std-b);color:var(--text);border-radius:50%;font-weight:700}
+.n img.m{width:16px;height:16px;image-rendering:pixelated;margin-top:1px}
+svg{position:absolute;top:0;left:0;pointer-events:none;z-index:3}
+.el{font-size:7.5px;fill:var(--text);text-anchor:middle;dominant-baseline:middle;font-family:'Segoe UI',system-ui,sans-serif}
+.n a,.lk a{color:inherit;text-decoration:none}
+.n a:hover,.lk a:hover{color:#6090d0}
+.lk{pointer-events:auto;overflow:visible}
+footer a:hover{color:#6090d0!important}
+</style>
+</head>
+<body>
+<h1>The Binding of Isaac: Repentance+</h1>
+<p class="sub">Complete Chapter Flowchart — all routes unlocked</p>
+<div id="wrap"><div id="chart"></div></div>
+<footer style="text-align:center;padding:1rem 0 1.5rem;font-size:.7rem;color:var(--muted);line-height:1.8">
+<div>Made by <a href="https://github.com/Rikj000" target="_blank" style="color:var(--text);text-decoration:none">Rikj000</a></div>
+<div><a href="https://rikj000.github.io/The-Binding-of-Isaac-Chapter-Flow-Chart/The-Binding-of-Isaac-Chapter-Flow-Chart.png" target="_blank" style="color:var(--text);text-decoration:none">Click for <code style="font-size:.65rem">.png</code> version</a></div>
+</footer>
+<script>
+const MARKS={beast:'data:image/webp;base64,UklGRnIAAABXRUJQVlA4TGUAAAAvD8ADEBK3keSGjXOV4v4rBMAagM8uuBmBQIK1zmSxCgRSvEEkH/B/AnY/1g/76L8Dv+ut7k0QdauQUKODhtoEAjEvBmJzQqzpAkIM5HaFGAjkdqgvEDXgBGRSQ1/qaR5u61l3AQA=',bluewomb:'data:image/webp;base64,UklGRm4AAABXRUJQVlA4TGEAAAAvD8ADEA7HbRtJ0v4nlM0/wjlDsGFBEAgkWOtMFqtAIMUbRPKb/icgHx44qD6Zv/vvdFPdEgugBWoiV5w/WYHO3mTq1EKXJFOh6pJkFjn3wkIv8AKgr3xUqAW601Q3dfkSAA==',bossrush:'data:image/webp;base64,UklGRnIAAABXRUJQVlA4TGYAAAAvD8ADEBI3jSRJ0voD5vjjmxdCVdmVOoFAYjXPZLEKBFK8QSQLBBL1UTdpAvR60IDPzHc4GSzya1jySqYN2pu0xQuAtG0AS6SHQTLZBUsyWQXrDGsmXYfpT9umbReiDZADwDKwugU=',brimstone:'data:image/webp;base64,UklGRn4AAABXRUJQVlA4THIAAAAvD8ADEA5GAdDG6R8x82+vBWahJxEIJFbzTBarQCDFG0SyQCCxXWzQFLhto4zuxvCMORAEJKk5jaWdr2Wpq1sUF0BiGa4J7qpRapJidVacXr9p8g4gV3G2c0fiw5WAmFAgCiwoDzCVtXAn6yy+cUpOPQE=',cathedral:'data:image/webp;base64,UklGRmoAAABXRUJQVlA4TF4AAAAvD8ADEBLGbdsGuv8Nc/vPl7S3gu23BQgEEqt5JotVIJDiDSL5gP8ToP3FS7AuzXO/Xg4G6A1t0gZfzIC3LG1YDFm6ySO5EG0BvHmxLmmDfmDJN0FyLoIlOBlLik/X',chest:'data:image/webp;base64,UklGRnYAAABXRUJQVlA4TGoAAAAvD8ADEBLHbRtJ0v47mM0/vj4wIbj8lgCBQGI1z2SxCgRSvEEkCwmS6862MQH5cNHCPll88d+A31Gdl706yQjtBjWxUNUCGxSo9ib7aV7YLGhPNQJ1LziHvQVMRrvtNUlGtZuzJZNxn3wJ',darkroom:'data:image/webp;base64,UklGRm4AAABXRUJQVlA4TGEAAAAvD8ADEBLHbRtJ0vw7mM0/vuoD2Ahsvy1AIJBYzTNZrAKBFG8QyQKBRH20zZoA/eGiBcAX5tfa7zA9SI8BS/QaeYScSFtmdm2bQZtDG0iLT3v0ECSTCyzJzGy0XSyZ6d0jAA==',greed:'data:image/webp;base64,UklGRmgAAABXRUJQVlA4TFsAAAAvD8ADEA7GbdtI2v+Wsv1XmGNbiAFDFggkWOtMFqtAIMUbRPLN/ifg+hcvn8ut0dd3wSZTQLYYglyVDrmnCbaFdiJAVvUWluzhkNspqCjDBdnKLYPNrbF+BNIBAA==',heart:'data:image/webp;base64,UklGRmgAAABXRUJQVlA4TFwAAAAvD8ADEBI2EdjGyR4w5Y/PzsdA0ixdBQKJ1TyTxSoQSPEGkSwQSNRH3aQJwPtJE5XA5C7jfM1WWhbXyLayIded/pI2VJiVQgCIOoWojIpC9IxshWDzg4lCbDPEbQ==',mother:'data:image/webp;base64,UklGRmIAAABXRUJQVlA4TFYAAAAvD8ADEA7GbdsGun9Huf0nbJu7EWzAkAUCCdY6k8UqEEjxBpF8s/8J0HURWNCUtyf81vYDwHNnOfoTndgJmsCgmycSTrz1VJLE6ApOQids3CQcz1RT7Q==',sheol:'data:image/webp;base64,UklGRnIAAABXRUJQVlA4TGUAAAAvD8ADEBLGbdtI2v8Us/3XlzlasP22AIFAYjXPZLEKBFK8QSQLBBL1UTdpAnRctGBdm+9wsiTytwtJpg/kwfTGwG7xMGnTBmuSbgMehow2WNNk07CRaQPgnWixbknRtQmSL2SsPQA=',void:'data:image/webp;base64,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',};
+
+const B='https://bindingofisaacrebirth.wiki.gg/wiki/';
+const LINKS={
+'Burning Basement':B+'Burning_Basement','Scarred Womb':B+'Scarred_Womb',
+'Flooded Caves':B+'Flooded_Caves','Dank Depths':B+'Dank_Depths',
+'Dark Room':B+'Dark_Room','Blue Womb':B+'%3F%3F%3F_(Floor)',
+'The Void':B+'The_Void','The Beast':B+'The_Beast','The Lamb':B+'The_Lamb',
+'The Polaroid':B+'The_Polaroid','The Negative':B+'The_Negative',
+'Mega Satan':B+'Mega_Satan','Boss Rush':B+'Boss_Rush',
+"Mom's Heart":B+'Mom%27s_Heart','It Lives!':B+'It_Lives!',
+'Greed Mode':B+'Greed_Mode','Ultra Greedier':B+'Ultra_Greed#Ultra_Greedier',
+'Key Piece 1':B+'Key_Piece_1','Key Piece 2':B+'Key_Piece_2',
+'Knife Piece 1':B+'Knife_Piece_1','Knife Piece 2':B+'Knife_Piece_2',
+'Strange Door':B+'A_Strange_Door',"Dad's Note":B+'Dad%27s_Note',
+'??? (Blue Baby)':B+'%3F%3F%3F_(Boss)',
+'Basement':B+'Basement','Cellar':B+'Cellar','Caves':B+'Caves',
+'Catacombs':B+'Catacombs','Depths':B+'Depths','Necropolis':B+'Necropolis',
+'Womb':B+'Womb','Utero':B+'Utero','Cathedral':B+'Cathedral',
+'Sheol':B+'Sheol','Chest':B+'Chest_(Floor)','Home':B+'Home',
+'Downpour':B+'Downpour','Dross':B+'Dross','Mines':B+'Mines',
+'Ashpit':B+'Ashpit','Mausoleum':B+'Mausoleum','Gehenna':B+'Gehenna',
+'Corpse':B+'Corpse','Mother':B+'Mother','Hush':B+'Hush',
+'Isaac':B+'Isaac_(Boss)','Satan':B+'Satan','Delirium':B+'Delirium',
+'Dogma':B+'Dogma','Ascent':B+'Ascent','Mom':B+'Mom',
+'Key':B+'Keys','Bombs':B+'Bombs','Hearts':B+'Hearts',
+};
+const _LK=Object.keys(LINKS).sort((a,b)=>b.length-a.length);
+function linkifyHTML(t){
+  const ph=[];
+  for(const k of _LK){
+    const esc=k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    t=t.replace(new RegExp(esc,'g'),m=>{
+      const i=ph.length;
+      ph.push('<a href="'+LINKS[k]+'" target="_blank">'+m+'</a>');
+      return '\x00'+i+'\x00';
+    });
+  }
+  return t.replace(/\x00(\d+)\x00/g,(_,i)=>ph[parseInt(i)]);
+}
+
+const W=980,AX=120,SX=490,RX=860,GAP=26,Y0=200,RS=64,R=16;
+const r=i=>Y0+i*RS+(i>=7?GAP:0);
+const ra=i=>Y0+(i+.5)*RS+(i+.5>=7?GAP:0);
+const PC=350,PM=490,PS=630;
+const FORK_OX=8;
+
+const nodes=[
+  ['START',SX,Y0,28,28,'','start'],
+  ['B1',SX,r(1),174,42,'Basement / Cellar /\nBurning Basement I','std'],
+  ['B2',SX,r(2),174,42,'Basement / Cellar /\nBurning Basement II','std'],
+  ['C1',SX,r(3),174,42,'Caves / Catacombs /\nFlooded Caves I','std'],
+  ['C2',SX,r(4),174,42,'Caves / Catacombs /\nFlooded Caves II','std'],
+  ['D1',SX,r(5),174,42,'Depths / Necropolis /\nDank Depths I','std'],
+  ['D2',SX,r(6),174,42,'Depths / Necropolis /\nDank Depths II','std'],
+  ['MOM',SX,r(7),116,34,'Mom','boss'],
+  ['W1',SX,r(8),174,42,'Womb / Utero /\nScarred Womb I','std'],
+  ['W2',SX,r(9),174,42,'Womb / Utero /\nScarred Womb II','std'],
+  ['HEART',SX,r(10),150,54,'Mom\'s Heart / It Lives!','boss','heart'],
+  ['DP1',AX,ra(1),168,38,'Downpour / Dross I','alt'],
+  ['DP2',AX,ra(2),168,50,'Downpour / Dross II\n🗡 Knife Piece 1 (mirror)','alt'],
+  ['MN1',AX,ra(3),168,38,'Mines / Ashpit I','alt'],
+  ['MN2',AX,ra(4),168,50,'Mines / Ashpit II\n🗡 Knife Piece 2 (minecart)','alt'],
+  ['MA1',AX,ra(5),168,38,'Mausoleum / Gehenna I','alt'],
+  ['MA2',AX,ra(6),168,38,'Mausoleum / Gehenna II','alt'],
+  ['MOMA',AX,r(7),140,42,'Mom\nMausoleum Version','boss'],
+  ['MOMHEART',AX,r(8),150,54,'Mom\'s Heart\nMausoleum Version','boss','heart'],
+  ['CORP1',AX,r(9),148,34,'Corpse I','alt'],
+  ['CORP2',AX,r(10),148,34,'Corpse II','alt'],
+  ['MOTHER',AX,r(11),116,50,'Mother','boss','mother'],
+  ['BR',305,r(7),108,50,'Boss Rush','boss','bossrush'],
+  ['BW',RX,r(10),120,34,'Blue Womb','spec'],
+  ['HUSH',RX,r(11),106,48,'Hush','boss','bluewomb'],
+  ['SPMAU',RX,r(7),156,44,'Special Mausoleum II\n📜 Dad\'s Note','asc'],
+  ['AD2',RX,r(6),128,28,'↑ Depths II','asc'],
+  ['AD1',RX,r(5),128,28,'↑ Depths I','asc'],
+  ['AC2',RX,r(4),128,28,'↑ Caves II','asc'],
+  ['AC1',RX,r(3),128,28,'↑ Caves I','asc'],
+  ['AB2',RX,r(2),128,28,'↑ Basement II','asc'],
+  ['AB1',RX,r(1),128,28,'↑ Basement I','asc'],
+  ['HOME',RX,Y0,108,30,'🏠 Home','spec'],
+  ['DOGMA',RX,Y0-RS,98,28,'Dogma','boss'],
+  ['BEAST',RX,Y0-RS*2,98,46,'The Beast','boss','beast'],
+  ['CATH',PC,r(12),106,34,'Cathedral','std'],
+  ['SHEOL',PS,r(12),96,34,'Sheol','std'],
+  ['ISAAC',PC,r(13),106,48,'Isaac','boss','cathedral'],
+  ['SATAN',PS,r(13),96,48,'Satan','boss','sheol'],
+  ['CHEST',PC,r(14),96,34,'Chest','std'],
+  ['DR',PS,r(14),96,34,'Dark Room','std'],
+  ['BB',PC,r(15),118,58,'??? (Blue Baby)','boss','chest'],
+  ['LAMB',PS,r(15),106,58,'The Lamb','boss','darkroom'],
+  ['MEGA',PM,r(16.8),126,48,'Mega Satan','boss','brimstone'],
+  ['VOID',PM,r(17.9),118,34,'The Void','spec'],
+  ['DEL',PM,r(19),108,48,'Delirium','boss','void'],
+  ['GREED',58,Y0,148,58,'Greed Mode\nUltra Greedier','greed','greed'],
+];
+
+const E=[
+  ['START','B1','',0,0],['B1','B2','',0,0],['B2','C1','',0,0],['C1','C2','',0,0],
+  ['C2','D1','',0,0],['D1','D2','',0,0],['D2','MOM','',0,0],['MOM','W1','',0,0],
+  ['W1','W2','',0,0],['W2','HEART','',0,0],
+  ['B1','DP1','🔑 1 Key',0,-1],['B2','DP2','🔑 1 Key',0,-1],
+  ['C1','MN1','💣 2 Bombs',0,-1],['C2','MN2','💣 2 Bombs',0,-1],
+  ['D1','MA1','💖 2 Hearts',0,-1],
+  ['DP1','DP2','',0,0],['DP2','MN1','💣 2 Bombs',0,0],
+  ['MN1','MN2','',0,0],['MN2','MA1','💖 2 Hearts',0,0],
+  ['MA1','MA2','',0,0],['MA2','MOMA','',0,0],
+  ['MOMA','MOMHEART','🔪 Knife',0,0],['MOMHEART','CORP1','',0,0],['CORP1','CORP2','',0,0],['CORP2','MOTHER','',0,0],
+  ['DP2','C1','Trapdoor',1,1],['MN2','D1','Trapdoor',1,1],
+  ['MOMA','W1','Trapdoor',1,'mw'],
+  ['MOM','BR','⏱ < 20m',0,-1],['MOMA','BR','⏱ < 25m',0,1],
+  ['MOM','SPMAU','Strange Door\nThe Polaroid / The Negative\n(after Mom)',0,'sd'],
+  ['SPMAU','AD2','Ascent','up','up'],['AD2','AD1','','up','up'],['AD1','AC2','','up','up'],
+  ['AC2','AC1','','up','up'],['AC1','AB2','','up','up'],['AB2','AB1','','up','up'],
+  ['AB1','HOME','','up','up'],['HOME','DOGMA','','up','up'],['DOGMA','BEAST','','up','up'],
+  ['HEART','BW','⏱ < 30m',0,1],['BW','HUSH','',0,0],
+  ['HEART','CATH','The Polaroid',0,'sq-l'],
+  ['HEART','SHEOL','The Negative',0,'sq-r'],
+  ['CATH','ISAAC','',0,0],['SHEOL','SATAN','',0,0],
+  ['ISAAC','CHEST','',0,0],['SATAN','DR','',0,0],
+  ['CHEST','BB','',0,0],['DR','LAMB','',0,0],
+  ['BB','MEGA','',0,'mg-l'],
+  ['LAMB','MEGA','',0,'mg-r'],
+  ['MEGA','VOID','',0,0],['VOID','DEL','',0,0],
+  ['START','GREED','Separate Mode',1,-1],
+];
+
+const VE=[
+  ['MOMA','VOID','5%',1,'l',20,'l'],       // outermost left, from MOMA left side
+  ['MOTHER','VOID','100%',0,'l',AX,'b'],    // straight down from Mother
+  ['ISAAC','VOID','15%',1,'l',185,'l'],
+  ['HEART','VOID','10%',1,'l',235,'l'],
+  ['BB','VOID','100%',0,'l',270,'l'],       // inner left
+  ['HUSH','VOID','100%',0,'r',RX,'b'],      // straight down from Hush
+  ['MOM','VOID','5%',1,'r',752,'r'],        // between Lamb and Satan on right
+  ['SATAN','VOID','15%',1,'r',795,'r'],
+  ['LAMB','VOID','100%',0,'r',710,'r'],     // inner right
+];
+
+const chart=document.getElementById('chart');
+const totalH=r(21);
+chart.style.width=W+'px';chart.style.height=totalH+'px';
+
+const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+svg.setAttribute('width',W);svg.setAttribute('height',totalH);
+svg.style.cssText='position:absolute;top:0;left:0;pointer-events:none;z-index:3';
+svg.innerHTML=`<defs>
+<marker id="a" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto-start-reverse"><path d="M0,.5L6,2.5L0,4.5" fill="none" stroke="var(--arr)" stroke-width="1.1"/></marker>
+<marker id="ad" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto-start-reverse"><path d="M0,.5L6,2.5L0,4.5" fill="none" stroke="var(--arr2)" stroke-width="1.1"/></marker>
+<marker id="au" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,.5L6,2.5L0,4.5" fill="none" stroke="var(--asc-b)" stroke-width="1.1"/></marker>
+</defs>`;
+chart.appendChild(svg);
+
+const N={};
+nodes.forEach(([id,x,y,w,h,label,cls,mk])=>{
+  N[id]={x,y,w,h};
+  const d=document.createElement('div');d.className='n '+cls;
+  d.style.left=(x-w/2)+'px';d.style.top=(y-h/2)+'px';
+  d.style.width=w+'px';d.style.height=h+'px';
+  let html='<span>'+linkifyHTML(label).replace(/\n/g,'<br>')+'</span>';
+  if(mk&&MARKS[mk])html+='<img class="m" src="'+MARKS[mk]+'">';
+  d.innerHTML=html;chart.appendChild(d);
+});
+
+function pt(d,dash,mk,col){
+  const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d',d);p.setAttribute('fill','none');
+  p.setAttribute('stroke',col||'var(--arr)');p.setAttribute('stroke-width','1.3');
+  if(dash)p.setAttribute('stroke-dasharray','5,4');
+  p.setAttribute('marker-end','url(#'+(mk||'a')+')');
+  svg.appendChild(p);
+}
+function lb(x,y,t,anchor){
+  if(!t)return;
+  const lines=t.split('\n');
+  const h=lines.length*11+4;
+  const w=240;
+  const align=anchor==='start'?'left':anchor==='end'?'right':'center';
+  const fx=anchor==='start'?x:anchor==='end'?x-w:x-w/2;
+  const fo=document.createElementNS('http://www.w3.org/2000/svg','foreignObject');
+  fo.setAttribute('x',fx);fo.setAttribute('y',y-7);
+  fo.setAttribute('width',w);fo.setAttribute('height',h);
+  fo.setAttribute('class','lk');
+  const div=document.createElement('div');
+  div.style.cssText="font-size:7.5px;line-height:1.2;color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;text-align:"+align+";white-space:nowrap";
+  div.innerHTML=linkifyHTML(lines.join('<br>'));
+  fo.appendChild(div);
+  svg.appendChild(fo);
+}
+
+// "Start" label
+lb(SX,Y0-22,'Start');
+
+E.forEach(([fi,ti,label,dash,cv])=>{
+  const f=N[fi],t=N[ti];if(!f||!t)return;
+  const mk=dash?'ad':'a';
+
+  if(cv==='up'){
+    pt(`M${f.x},${f.y-f.h/2}L${t.x},${t.y+t.h/2}`,0,'a');
+    if(label)lb(f.x+8,(f.y-f.h/2+t.y+t.h/2)/2,label,'start');
+    return;
+  }
+
+  // MOMA→W1: curve that arrives as a straight horizontal line into W1 left side
+  if(cv==='mw'){
+    const x1=f.x+f.w/2, y1=f.y;           // right side of MOMA
+    const x2=t.x-t.w/2, y2=t.y;           // left side of W1
+    // Curve from MOMA down to W1 height (never dipping below), then straight horizontal line
+    const straightStart=x1+100;            // x where the straight segment begins
+    const cy=y1+(y2-y1)*0.75;             // control y: between MOMA and W1, never below y2
+    pt(`M${x1},${y1}C${x1+40},${cy} ${straightStart-30},${y2} ${straightStart},${y2}L${x2},${y2}`,dash,mk);
+    // "Trapdoor" label centered above the straight horizontal segment
+    lb((straightStart+x2)/2, y2-10, 'Trapdoor');
+    return;
+  }
+
+  // Strange Door: same curve as cv=1 but label positioned below
+  if(cv==='sd'){
+    const x1=f.x+f.w/2,y1=f.y,x2=t.x-t.w/2,y2=t.y;
+    const dx=x2-x1,dy=y2-y1;
+    pt(`M${x1},${y1}C${x1+dx*.35},${y1+dy*.1} ${x1+dx*.65},${y1+dy*.9} ${x2},${y2}`,0,'a');
+    if(label)lb(x1+dx*.5+8,y1+12,label);
+    return;
+  }
+
+  // Heart→Cathedral/Sheol: 90° with rounded corners
+  if(cv==='sq-l'||cv==='sq-r'){
+    const isL=cv==='sq-l';
+    const x1=SX+(isL?-FORK_OX:FORK_OX), y1=f.y+f.h/2;
+    const x2=t.x, y2=t.y-t.h/2;
+    const ym=(y1+y2)/2;
+    let d;
+    if(isL){
+      d=`M${x1},${y1}L${x1},${ym-R}Q${x1},${ym} ${x1-R},${ym}L${x2+R},${ym}Q${x2},${ym} ${x2},${ym+R}L${x2},${y2}`;
+    }else{
+      d=`M${x1},${y1}L${x1},${ym-R}Q${x1},${ym} ${x1+R},${ym}L${x2-R},${ym}Q${x2},${ym} ${x2},${ym+R}L${x2},${y2}`;
+    }
+    pt(d,dash,mk);
+    if(label)lb((x1+x2)/2, ym-8, label);
+    return;
+  }
+
+  // BB/Lamb → Mega: 90° routing with R=16 corners, from bottom center to Mega top
+  if(cv==='mg-l'||cv==='mg-r'){
+    const isL=cv==='mg-l';
+    const x1=f.x, y1=f.y+f.h/2;  // bottom center of source
+    const arriveX=SX+(isL?-FORK_OX:FORK_OX);  // arrival x on Mega top
+    const y2=t.y-t.h/2;  // top of Mega
+    const ym=(y1+y2)/2;  // midpoint for horizontal segment
+    let d;
+    if(isL){
+      d=`M${x1},${y1}L${x1},${ym-R}Q${x1},${ym} ${x1+R},${ym}L${arriveX-R},${ym}Q${arriveX},${ym} ${arriveX},${ym+R}L${arriveX},${y2}`;
+    }else{
+      d=`M${x1},${y1}L${x1},${ym-R}Q${x1},${ym} ${x1-R},${ym}L${arriveX+R},${ym}Q${arriveX},${ym} ${arriveX},${ym+R}L${arriveX},${y2}`;
+    }
+    pt(d,dash,mk);
+    return;
+  }
+
+  const sameCol=Math.abs(f.x-t.x)<15;
+  if(cv===0&&sameCol){
+    const y1=f.y+f.h/2, y2=t.y-t.h/2;
+    pt(`M${f.x},${y1}L${t.x},${y2}`,dash,mk);
+    if(label){const isAlt=f.x<300;lb(f.x+(isAlt?-30:16),(y1+y2)/2,label);}
+    return;
+  }
+
+  let x1,y1,x2,y2;
+  if(cv===1||cv===-1){x1=f.x+(cv<0?-f.w/2:f.w/2);y1=f.y;x2=t.x+(cv<0?t.w/2:-t.w/2);y2=t.y;}
+  else{x1=f.x;y1=f.y+f.h/2;x2=t.x;y2=t.y-t.h/2;}
+  const dx=x2-x1,dy=y2-y1;
+  pt(`M${x1},${y1}C${x1+dx*.35},${y1+dy*.1} ${x1+dx*.65},${y1+dy*.9} ${x2},${y2}`,dash,mk);
+  if(label){const isLeft=cv===-1&&f.x>t.x;lb(x1+dx*.5+(isLeft?-10:8),y1+dy*.4-5,label);}
+});
+
+// "Key Pieces" label
+const mega=N['MEGA'],bb=N['BB'];
+lb(PM, (bb.y+bb.h/2+mega.y-mega.h/2)/2-16, 'Key Pieces (Key Piece 1 + Key Piece 2)');
+
+// Void arrows
+const voidLabelY=(N['BB'].y+N['VOID'].y)/2;
+
+VE.forEach(([fi,ti,label,dash,side,colX,startType])=>{
+  const f=N[fi],t=N[ti];if(!f||!t)return;
+  const mk=dash?'ad':'a';
+  const isL=side==='l';
+
+  let x1,y1;
+  if(startType==='b'){x1=f.x;y1=f.y+f.h/2;}
+  else{x1=isL?f.x-f.w/2:f.x+f.w/2;y1=f.y;}
+
+  const x2=isL?t.x-t.w/2:t.x+t.w/2;
+  const y2=t.y;
+  let d;
+
+  if(startType==='b'){
+    if(isL){
+      d=`M${x1},${y1}L${x1},${y2-R}Q${x1},${y2} ${x1+R},${y2}L${x2},${y2}`;
+    }else{
+      d=`M${x1},${y1}L${x1},${y2-R}Q${x1},${y2} ${x1-R},${y2}L${x2},${y2}`;
+    }
+  } else {
+    if(isL){
+      d=`M${x1},${y1}L${colX+R},${y1}Q${colX},${y1} ${colX},${y1+R}L${colX},${y2-R}Q${colX},${y2} ${colX+R},${y2}L${x2},${y2}`;
+    }else{
+      d=`M${x1},${y1}L${colX-R},${y1}Q${colX},${y1} ${colX},${y1+R}L${colX},${y2-R}Q${colX},${y2} ${colX-R},${y2}L${x2},${y2}`;
+    }
+  }
+
+  pt(d,dash,mk);
+  if(label){
+    const lx=startType==='b'?x1:colX;
+    lb(lx+(isL?14:-14),voidLabelY,label,isL?'start':'end');
+  }
+});
+</script>
+</body>
+</html>
